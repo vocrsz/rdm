@@ -6,7 +6,7 @@ SimpleCov.start do
 end
 
 require 'rdm'
-require 'byebug'
+require 'pry'
 require 'fileutils'
 
 require_relative 'helpers/example_project_helper'
@@ -51,7 +51,7 @@ class SpecLogger
   def puts(message)
     @output.push(message)
   end
-  
+
   def print(message)
     @output.push(message)
   end

@@ -1,6 +1,3 @@
-require 'active_support'
-require 'active_support/dependencies'
-
 class Rdm::PackageImporter
   class << self
     # Initialize current package using Package.rb
@@ -103,10 +100,6 @@ class Rdm::PackageImporter
 
     package.file_dependencies(group).each do |file_path|
       require File.join(package.path, file_path)
-    end
-
-    unless ActiveSupport::Dependencies.autoload_paths.include?(package_dir_name)
-      ActiveSupport::Dependencies.autoload_paths << package_dir_name
     end
   end
 

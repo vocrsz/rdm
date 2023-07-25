@@ -24,19 +24,19 @@ module Rdm
         FileUtils.mkdir_p(@compile_path)
 
         dependent_packages = Rdm::Handlers::DependenciesHandler.show_packages(
-          package_name: @package_name, 
+          package_name: @package_name,
           project_path: @project_path
         )
 
         dependent_packages.each do |pkg|
           rel_path = Pathname.new(pkg.path).relative_path_from(Pathname.new(@project_path))
           new_path = File.dirname(File.join(@compile_path, rel_path))
-          
+
           FileUtils.mkdir_p(new_path)
           FileUtils.cp_r(pkg.path, new_path)
         end
 
-        
+
         source_rdm_path = File.join(@project_path, Rdm::SOURCE_FILENAME)
         dest_rdm_path   = File.join(@compile_path, Rdm::SOURCE_FILENAME)
         package_definition_regex = /package\s+['"]([\w\/]+)['"]/i
@@ -51,7 +51,7 @@ module Rdm
                 package_line[1] == Pathname.new(pkg.path).relative_path_from(Pathname.new(@project_path)).to_s
               end
 
-              out_file.puts line if dependent_package_definition.present?
+              out_file.puts line if !dependent_package_definition.nil?
             end
           end
         end
@@ -59,7 +59,7 @@ module Rdm
         FileUtils.cp_r(File.join(@project_path, 'configs'), File.join(@compile_path, 'configs'))
         if Dir.exist?(File.join(@project_path, Rdm.settings.env_files_dir))
           FileUtils.cp_r(
-            File.join(@project_path, Rdm.settings.env_files_dir), 
+            File.join(@project_path, Rdm.settings.env_files_dir),
             File.join(@compile_path, Rdm.settings.env_files_dir)
           )
         end

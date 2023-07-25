@@ -22,12 +22,12 @@ module Rdm
         @overwrite_directory ||= ->() { STDIN.gets.chomp.downcase == YES }
         @compile_path        ||= Rdm.settings.compile_path
 
-        if @package_name.blank?
+        if @package_name.to_s.empty?
           puts 'Package name was not specified. Ex: rdm compile.package PACKAGE_NAME'
           return
         end
 
-        if @compile_path.blank?
+        if @compile_path.to_s.empty?
           puts 'Destination path was not specified. Ex: rdm compile.package package_name --path FOLDER_PATH'
           return
         end

@@ -12,19 +12,19 @@ class Rdm::CLI::DiffSpecRunner
 
   def run
     changed_packages = Rdm::Handlers::DiffPackageHandler.handle(
-      path:     @path, 
+      path:     @path,
       revision: @revision
     )
-    
+
     if changed_packages.empty?
       @stdout.puts "No modified packages were found. Type `git add .` to index all changes..."
-      
+
       return nil
     end
 
     @stdout.puts "Tests for the following packages will run:\n  - #{changed_packages.join("\n  - ")}\n\n"
-  
-    changed_packages.each do |package| 
+
+    changed_packages.each do |package|
       Rdm::SpecRunner.run(
         package:               package,
         path:                  @path,
@@ -33,10 +33,10 @@ class Rdm::CLI::DiffSpecRunner
         show_output:           @show_output
       )
     end
-  
+
   rescue Rdm::Errors::GitRepositoryNotInitialized
     @stdout.puts "Git repository is not initialized. Use `git init .`"
-    
+
     return nil
   end
 end

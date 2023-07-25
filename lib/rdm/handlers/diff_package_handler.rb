@@ -24,7 +24,7 @@ module Rdm
           .reject { |file| file.include?(Rdm::Gen::Init::LOCAL_TEMPLATES_PATH) }
           .map { |file| Rdm::Packages::Locator.locate(file) rescue nil }
           .map { |path_to_package| Rdm::PackageParser.parse_file(path_to_package).name rescue nil }
-          .reject(&:blank?)
+          .reject(&:nil?)
           .uniq
 
         return get_dependencies(modified_packages) || []
@@ -37,9 +37,9 @@ module Rdm
           new_packages = all_packages
             .select {|p| (p.local_dependencies & base_packages).any?}
             .map(&:name)
-          
+
           extended_dependencies = (base_packages | new_packages).sort
-          
+
           return extended_dependencies if extended_dependencies == base_packages
 
           get_dependencies(extended_dependencies) || []

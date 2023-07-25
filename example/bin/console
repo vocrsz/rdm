@@ -8,8 +8,8 @@ source_file      = Rdm::SourceLocator.locate(__dir__)
 source           = Rdm::SourceParser.read_and_init_source(source_file)
 package_consoles = source.packages.inject([]) do |res, (name,data)|
   package_console_file = File.join(data.path, 'bin/console')
-  File.exists?(package_console_file) ? 
-    res.push(name: name, path: package_console_file) : 
+  File.exists?(package_console_file) ?
+    res.push(name: name, path: package_console_file) :
     res
 end
 

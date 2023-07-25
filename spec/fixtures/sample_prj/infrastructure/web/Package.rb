@@ -5,7 +5,6 @@ end
 
 dependency do
   import "core"
-  require "active_support"
   require_file "lib/web.rb"
 end
 

@@ -8,7 +8,7 @@ describe Rdm::CLI::DiffSpecRunner do
   let(:stdout) { SpecLogger.new }
 
   before { initialize_example_project }
-  after do 
+  after do
     reset_example_project
     stdout.clean
   end

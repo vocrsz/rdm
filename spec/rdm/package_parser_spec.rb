@@ -27,10 +27,8 @@ describe Rdm::PackageParser do
     end
 
     it "parses external dependecies" do
-      expect(package.external_dependencies).to include("active_support")
       expect(package.external_dependencies).to_not include("rspec")
 
-      expect(package.external_dependencies(:test)).to include("active_support")
       expect(package.external_dependencies(:test)).to include("rspec")
     end
 
