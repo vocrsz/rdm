@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Rdm::PackageImporter do
   def build_package(name, dependencies: [])
     package = Rdm::Package.new
-    package.name(name)
+    package.name(File.basename(name))
     package.path = name
     dependencies.each do |dependency|
       package.import(dependency)
@@ -26,8 +26,8 @@ describe Rdm::PackageImporter do
 
     context "no group given" do
       it "imports all depended global packages" do
-        web_pack = build_package("web", dependencies: ["core"])
-        core_pack = build_package("core")
+        web_pack = build_package("example/application/web", dependencies: ["core"])
+        core_pack = build_package("example/domain/core")
         source = build_source(packages: {"web" => web_pack, "core" => core_pack})
 
         imported = subject.import_package("web", source: source)
@@ -37,26 +37,27 @@ describe Rdm::PackageImporter do
 
     context "group given" do
       it "imports global and group dependencies" do
-        web_pack = build_package("web", dependencies: ["core"])
+        web_pack = build_package("example/application/web", dependencies: ["core"])
         web_pack.dependency "test" do
           web_pack.import('factory')
         end
-        core_pack = build_package("core")
-        factory_pack = build_package("factory")
+        core_pack = build_package("example/domain/core")
+        factory_pack = build_package("example/infrastructure/factory")
 
         source = build_source(packages: {"web" => web_pack, "core" => core_pack, "factory" => factory_pack})
 
         imported = subject.import_package("web", source: source, group: "test")
+
         expect(imported).to include("factory")
       end
 
       it "does not import not required group" do
-        web_pack = build_package("web", dependencies: ["core"])
+        web_pack = build_package("example/application/web", dependencies: ["core"])
         web_pack.dependency "test" do
           web_pack.import('factory')
         end
-        core_pack = build_package("core")
-        factory_pack = build_package("factory")
+        core_pack = build_package("example/domain/core")
+        factory_pack = build_package("example/infrastructure/factory")
 
         source = build_source(packages: {"web" => web_pack, "core" => core_pack, "factory" => factory_pack})
 

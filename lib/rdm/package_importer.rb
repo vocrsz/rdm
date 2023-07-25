@@ -92,7 +92,8 @@ class Rdm::PackageImporter
 
   def init_package(package, group:)
     package_dir_name = File.join(package.path, package_subdir_name)
-    $LOAD_PATH.push(package_dir_name)
+
+    Rdm::CodeLoader.instance.push_dir(package_dir_name)
 
     package.external_dependencies(group).each do |dependency|
       require dependency
@@ -101,6 +102,9 @@ class Rdm::PackageImporter
     package.file_dependencies(group).each do |file_path|
       require File.join(package.path, file_path)
     end
+
+    Rdm::CodeLoader.instance.setup
+    Rdm::CodeLoader.instance.eager_load
   end
 
   def import_config(config_name, source:)

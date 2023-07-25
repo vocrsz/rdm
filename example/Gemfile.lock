@@ -1,7 +1,17 @@
+PATH
+  remote: ..
+  specs:
+    rdm (0.5.0)
+      commander (~> 4.6)
+      zeitwerk
+
 GEM
   remote: https://rubygems.org/
   specs:
+    commander (4.6.0)
+      highline (~> 2.0.0)
     diff-lcs (1.5.0)
+    highline (2.0.3)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -16,11 +26,14 @@ GEM
       rspec-support (~> 3.12.0)
     rspec-support (3.12.1)
     sequel (5.70.0)
+    zeitwerk (2.6.9)
 
 PLATFORMS
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
+  rdm!
   rspec
   sequel
 
